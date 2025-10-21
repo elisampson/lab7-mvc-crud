@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eliza Chat - MVC</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script type="module" src="app.js" defer></script>
+</head>
+<body>
+  <main class="chat-app">
+    <div class="chat-box">
+
+      <header class="chat-header">
+        <h1>Eliza Chat</h1>
+        <p>Architecture: MVC Pattern</p>
+      </header>
+
+      <div id="chatWindow" class="messages" aria-live="polite">
+      </div>
+
+      <form id="chatForm">
+        <input type="text" id="messageBox" placeholder="Type a message..." required />
+        <button type="submit">Send</button>
+      </form>
+
+    </div>
+  </main>
+</body>
+</html>
