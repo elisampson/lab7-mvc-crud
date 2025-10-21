@@ -55,3 +55,24 @@ function renderAllMessages(messages) {
 function clearMessages() {
   chatWindow.innerHTML = "";
 }
+
+function updateMessage(message) {
+  const existing = chatWindow.querySelector(`[data-message-id="${message.id}"]`);
+  if (!existing) return;
+
+  const updated = createMessageElement(message);
+  chatWindow.replaceChild(updated, existing);
+}
+
+function removeMessage(id) {
+  const el = chatWindow.querySelector(`[data-message-id="${id}"]`);
+  if (el) el.remove();
+}
+
+export {
+  renderAllMessages,
+  addMessage,
+  updateMessage,
+  removeMessage,
+  clearMessages
+};
