@@ -15,22 +15,17 @@
         <p>Architecture: MVC Pattern</p>
       </header>
 
-      <div id="chat-history" class="messages" aria-live="polite"></div>
+      <div id="chatWindow" class="messages" aria-live="polite"></div>
 
-      <form id="chat-form">
-        <input
-          type="text"
-          id="user-input"
-          placeholder="Type a message..."
-          required
-        />
+      <form id="chatForm">
+        <input type="text" id="messageBox" placeholder="Type a message..." required />
         <button type="submit">Send</button>
       </form>
 
-      <div class="controls">
-        <button id="export-btn" type="button">Export</button>
-        <input type="file" id="import-btn" accept=".json" />
-        <button id="clear-btn" type="button">Clear</button>
+      <div class="chat-controls">
+        <button id="exportBtn">Export</button>
+        <input type="file" id="importFile" />
+        <button id="clearBtn">Clear</button>
       </div>
     </div>
   </main>

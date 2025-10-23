@@ -22,15 +22,51 @@ body {
   background: linear-gradient(160deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
 }
 
-chat-widget {
+.chat-app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.chat-box {
   display: flex;
   flex-direction: column;
-  width: 420px;
+  width: 600px;
   height: 620px;
   background: var(--main-bg);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+}
+
+.chat-header {
+  background: var(--header-bg);
+  color: var(--text-light);
+  padding: 1.2rem;
+  text-align: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-header h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.chat-header p {
+  margin: 0.3rem 0 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  opacity: 0.95;
+  background: none;
+  border: none;
+  box-shadow: none;
 }
 
 #chatWindow {
@@ -94,51 +130,30 @@ button:hover {
   background: #357ab8;
 }
 
-.chat-app {
+.chat-controls {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(160deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
-
+  padding: 0.5rem 1rem;
+  background: #f9f9f9;
+  border-top: 1px solid var(--border-color);
+  gap: 0.5rem;
 }
 
-.chat-box {
-  display: flex;
-  flex-direction: column;
-  width: 600px;
-  height: 620px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
-}
-
-.chat-header {
-  background: #4a90e2;
+.chat-controls button {
+  background: var(--user-bg);
   color: white;
-  padding: 1.2rem;
-  text-align: center;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.chat-header h1 {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 600;
-}
-
-.chat-header p {
-  margin: 0.3rem 0 0;
-  font-size: 0.95rem;
-  font-weight: 400;
-  opacity: 0.95;
-  background: none;
   border: none;
-  box-shadow: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.chat-controls button:hover {
+  background: #357ab8;
+}
+
+.chat-controls input[type="file"] {
+  font-size: 0.9rem;
 }
