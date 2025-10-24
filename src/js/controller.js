@@ -1,86 +1,68 @@
 import * as Model from "./model.js";
-import {
-  renderAllMessages,
-  addMessage,
-  updateMessage,
-  removeMessage,
-  clearMessages
-} from "./view.js";
+import { renderAllMessages } from "./view.js";
+import { getBotResponse } from "./eliza.js";
 
-const form = document.querySelector("#chat-form");
-const input = document.querySelector("#user-input");
+window.addEventListener("DOMContentLoaded", () => {
+  console.log("Controller loaded ");
 
-Model.loadMessages();
-renderAllMessages(Model.getMessages());
+  const form = document.getElementById("chatForm");
+  const input = document.getElementById("messageBox");
+  const chatWindow = document.getElementById("chatWindow");
+  const exportBtn = document.getElementById("exportBtn");
+  const importFile = document.getElementById("importFile");
+  const clearBtn = document.getElementById("clearBtn");
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+  renderAllMessages(Model.getMessages());
+  document.addEventListener("messagesUpdated", (e) =>
+    renderAllMessages(e.detail.messages)
+  );
 
-  const text = input.value.trim();
-  if (!text) return;
+   // Handle send message
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    Model.addMessage(text, "user");
+    Model.addMessage(getBotResponse(text), "bot");
+    input.value = "";
+  });
 
-  const userMsg = Model.createMessage(text, true);
-  addMessage(userMsg);
-  input.value = "";
-
-  const botText = getBotResponse(text);
-  const botMsg = Model.createMessage(botText, false);
-  addMessage(botMsg);
-});
-
-document.querySelector("#chat-history").addEventListener("click", (e) => {
-  const msgEl = e.target.closest(".message");
-  if (!msgEl) return;
-
-  const id = msgEl.dataset.id;
-
-  if (e.target.classList.contains("edit")) {
-    const newText = prompt("Edit your message:", Model.getMessage(id)?.text);
-    if (newText !== null) {
-      const updated = Model.updateMessage(id, newText);
-      updateMessage(updated);
+   // Handle Edit/Delete actions
+  chatWindow.addEventListener("click", (e) => {
+    const msgEl = e.target.closest(".message");
+    if (!msgEl) return;
+    const id = msgEl.dataset.messageId;
+    if (e.target.hasAttribute("data-edit")) {
+      const newText = prompt("Edit:", msgEl.querySelector("p").textContent);
+      if (newText) Model.updateMessage(id, newText);
     }
-  }
-
-  if (e.target.classList.contains("delete")) {
-    const confirmDelete = confirm("Delete this message?");
-    if (confirmDelete) {
-      Model.deleteMessage(id);
-      removeMessage(id);
+    if (e.target.hasAttribute("data-delete")) {
+      if (confirm("Delete this message?")) Model.deleteMessage(id);
     }
-  }
-});
+  });
 
-document.querySelector("#export-btn")?.addEventListener("click", () => {
-  const data = Model.exportMessages();
-  const blob = new Blob([data], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "chat-history.json";
-  a.click();
-  URL.revokeObjectURL(url);
-});
+  // Handle Export/Import/Clear
+  exportBtn.addEventListener("click", () => {
+    const blob = new Blob([Model.exportMessages()], {
+      type: "application/json",
+    });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "chat-history.json";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
 
-document.querySelector("#import-btn")?.addEventListener("change", (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  
+  importFile.addEventListener("change", (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => Model.importMessages(r.result);
+    r.readAsText(f);
+  });
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      Model.importMessages(reader.result);
-      renderAllMessages(Model.getMessages());
-    } catch (err) {
-      alert("Invalid file format.");
-    }
-  };
-  reader.readAsText(file);
-});
-
-document.querySelector("#clear-btn")?.addEventListener("click", () => {
-  if (confirm("Clear all messages?")) {
-    Model.clearAll();
-    clearMessages();
-  }
+  clearBtn.addEventListener("click", () => {
+    if (confirm("Clear all messages?")) Model.clearMessages();
+  });
 });
