@@ -47,6 +47,9 @@ This lab was completed through a structured, incremental process:
 - **Import/Export:** Offers flexibility in saving and restoring chat history  
 - **CSS Variables:** Maintain consistent color themes and visual hierarchy  
 
+## Published Site
+https://app.netlify.com/projects/elisampson-lab7/overview
+
 ## License  
 This project is licensed under the **MIT License** — see [LICENSE.md](LICENSE.md) for details.  
 
